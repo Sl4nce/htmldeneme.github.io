@@ -13,7 +13,7 @@
             projectId: "lora-19c93",
             storageBucket: "lora-19c93.appspot.com",
             messagingSenderId: "76756601417",
-            appId: "1:76756601417:web:787fb91d598c7e852e4d98",
+            appId: "1:76756601417:web:787fb91d598c7e852e4d98"
         };
         // Firebase başlatma
         firebase.initializeApp(firebaseConfig);
@@ -21,29 +21,18 @@
         function sendCommand(command) {
             // Firebase'e komut gönderme
             firebase.database().ref('commands/').set({
-                command: command
+                role_ac: command
             }).then(() => {
                 alert('Komut gönderildi: ' + command);
-                checkStatus();
             }).catch((error) => {
                 alert('Komut gönderilemedi: ' + error.message);
-            });
-        }
-
-        function checkStatus() {
-            // Firebase'den geri bildirim kontrolü
-            firebase.database().ref('status/').on('value', (snapshot) => {
-                var status = snapshot.val();
-                if (status) {
-                    alert('Geri bildirim: ' + status);
-                }
             });
         }
     </script>
 </head>
 <body>
     <h1>Role Kontrol</h1>
-    <button onclick="sendCommand('ROLEYI AC')">Roleyi Aç</button>
-    <button onclick="sendCommand('ROLEYI KAPA')">Roleyi Kapat</button>
+    <button onclick="sendCommand('ac')">Roleyi Aç</button>
+    <button onclick="sendCommand('kapa')">Roleyi Kapat</button>
 </body>
 </html>
