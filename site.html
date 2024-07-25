@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Role Kontrol</title>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script>
+        // Firebase konfigürasyonu
+        var firebaseConfig = {
+            apiKey: "AIzaSyD4dFs285owx6I2VkSIcZfRKY9Uf9A7ilo",
+            authDomain: "lora-19c93.firebaseapp.com",
+            databaseURL: "https://lora-19c93-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "lora-19c93",
+            storageBucket: "lora-19c93.appspot.com",
+            messagingSenderId: "76756601417",
+            appId: "1:76756601417:web:787fb91d598c7e852e4d98",
+        };
+        // Firebase başlatma
+        firebase.initializeApp(firebaseConfig);
+
+        function sendCommand(command) {
+            firebase.database().ref('commands/').set({
+                command: command
+            }).then(() => {
+                alert('Komut gönderildi: ' + command);
+            }).catch((error) => {
+                alert('Komut gönderilemedi: ' + error.message);
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Role Kontrol</h1>
+    <button onclick="sendCommand('ROLEYI AC')">Roleyi Aç</button>
+    <button onclick="sendCommand('ROLEYI KAPA')">Roleyi Kapat</button>
+</body>
+</html>
