@@ -1,43 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Firebase Command Sender</title>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
+    <title>Role Kontrol</title>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script>
+        // Firebase konfigürasyonu
+        var firebaseConfig = {
+            apiKey: "AIzaSyD4dFs285owx6I2VkSIcZfRKY9Uf9A7ilo",
+            authDomain: "lora-19c93.firebaseapp.com",
+            databaseURL: "https://lora-19c93-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "lora-19c93",
+            storageBucket: "lora-19c93.appspot.com",
+            messagingSenderId: "76756601417",
+            appId: "1:76756601417:web:787fb91d598c7e852e4d98"
+        };
+        // Firebase başlatma
+        firebase.initializeApp(firebaseConfig);
+
+        function sendCommand(command) {
+            // Firebase'e komut gönderme
+            firebase.database().ref('commands/').set({
+                role_ac: command
+            }).then(() => {
+                alert('Komut gönderildi: ' + command);
+            }).catch((error) => {
+                alert('Komut gönderilemedi: ' + error.message);
+            });
+        }
+    </script>
 </head>
 <body>
-  <h1>Send Command to Firebase</h1>
-  <form id="commandForm">
-    <label for="command">Command:</label>
-    <input type="text" id="command" name="command">
-    <button type="submit">Send</button>
-  </form>
-
-  <script>
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-      apiKey: "AIzaSyD4dFs285owx6I2VkSIcZfRKY9Uf9A7ilo",
-      authDomain: "lora-19c93.firebaseapp.com",
-      databaseURL: "https://lora-19c93-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "lora-19c93",
-      storageBucket: "lora-19c93.appspot.com",
-      messagingSenderId: "76756601417",
-      appId: "1:76756601417:web:787fb91d598c7e852e4d98"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    var database = firebase.database();
-
-    // Form submit event
-    document.getElementById('commandForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      var command = document.getElementById('command').value;
-      database.ref('commands/').set({
-        command: command
-      });
-      alert('Command sent: ' + command);
-    });
-  </script>
+    <h1>Role Kontrol</h1>
+    <button onclick="sendCommand('ac')">Roleyi Aç</button>
+    <button onclick="sendCommand('kapa')">Roleyi Kapat</button>
 </body>
 </html>
