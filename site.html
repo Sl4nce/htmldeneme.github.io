@@ -19,12 +19,24 @@
         firebase.initializeApp(firebaseConfig);
 
         function sendCommand(command) {
+            // Firebase'e komut gönderme
             firebase.database().ref('commands/').set({
                 command: command
             }).then(() => {
                 alert('Komut gönderildi: ' + command);
+                checkStatus();
             }).catch((error) => {
                 alert('Komut gönderilemedi: ' + error.message);
+            });
+        }
+
+        function checkStatus() {
+            // Firebase'den geri bildirim kontrolü
+            firebase.database().ref('status/').on('value', (snapshot) => {
+                var status = snapshot.val();
+                if (status) {
+                    alert('Geri bildirim: ' + status);
+                }
             });
         }
     </script>
