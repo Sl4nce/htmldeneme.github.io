@@ -77,6 +77,24 @@
       const data = snapshot.val();
       document.getElementById('data').innerText = JSON.stringify(data, null, 2);
     });
+
+    // Initialize /data path in Firebase
+    function initializeData() {
+      const initialData = {
+        role: 'unknown',
+        sensor: 'no data'
+      };
+      database.ref('/data').set(initialData)
+      .then(() => {
+        console.log('Initial data set:', initialData);
+      })
+      .catch((error) => {
+        console.error('Error setting initial data:', error);
+      });
+    }
+
+    // Run initializeData once when the page loads
+    window.onload = initializeData;
   </script>
 </body>
 </html>
