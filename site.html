@@ -27,7 +27,7 @@
   <h1>LoRa Control Panel</h1>
   <button onclick="sendCommand('ac')">Role Aç</button>
   <button onclick="sendCommand('kapa')">Role Kapat</button>
-  <button onclick="getData()">Verileri Getir</button>
+  <button onclick="sendCommand('veri')">Verileri Getir</button>
   <div id="output">
     <h2>Veriler</h2>
     <pre id="data"></pre>
@@ -54,6 +54,10 @@
       database.ref('/commands/role_ac').set(command)
       .then(() => {
         console.log('Command sent:', command);
+        // Verileri hemen al
+        if (command === 'veri') {
+          getData();
+        }
       })
       .catch((error) => {
         console.error('Error sending command:', error);
