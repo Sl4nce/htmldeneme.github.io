@@ -27,6 +27,11 @@
   <h1>LoRa Control Panel</h1>
   <button onclick="sendCommand('ac')">Role Aç</button>
   <button onclick="sendCommand('kapa')">Role Kapat</button>
+  <div id="output">
+    <h2>Veriler</h2>
+    <pre id="data"></pre>
+  </div>
+
   <script>
     // Firebase configuration
     var firebaseConfig = {
@@ -53,7 +58,17 @@
         console.error('Error sending command:', error);
       });
     }
-    
+
+    // Function to update data display
+    function updateDataDisplay(data) {
+      document.getElementById('data').innerText = JSON.stringify(data, null, 2);
+    }
+
+    // Listen for changes in the database
+    database.ref('/data').on('value', (snapshot) => {
+      const data = snapshot.val();
+      updateDataDisplay(data);
+    });
   </script>
 </body>
 </html>
