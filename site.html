@@ -65,23 +65,22 @@
       database.ref('/data/get_data').set(true)
       .then(() => {
         console.log('Get data flag set to true');
-        listenForData();
+        setTimeout(() => {
+          database.ref('/data').once('value')
+          .then((snapshot) => {
+            const data = snapshot.val();
+            document.getElementById('data').innerText = JSON.stringify(data, null, 2);
+            database.ref('/data/get_data').set(false); // Reset the get_data flag
+          })
+          .catch((error) => {
+            console.error('Error getting data:', error);
+          });
+        }, 5000); // 5 seconds delay to ensure the data is fetched
       })
       .catch((error) => {
         console.error('Error setting get data flag:', error);
       });
     }
-
-    // Function to listen for data updates
-    function listenForData() {
-      database.ref('/data').on('value', (snapshot) => {
-        const data = snapshot.val();
-        document.getElementById('data').innerText = JSON.stringify(data, null, 2);
-      });
-    }
-
-    // Listen for real-time updates
-    listenForData();
   </script>
 </body>
 </html>
