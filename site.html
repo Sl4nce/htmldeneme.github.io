@@ -27,12 +27,6 @@
   <h1>LoRa Control Panel</h1>
   <button onclick="sendCommand('ac')">Role Aç</button>
   <button onclick="sendCommand('kapa')">Role Kapat</button>
-  <button onclick="getData()">Verileri Getir</button>
-  <div id="output">
-    <h2>Veriler</h2>
-    <pre id="data"></pre>
-  </div>
-
   <script>
     // Firebase configuration
     var firebaseConfig = {
@@ -59,28 +53,7 @@
         console.error('Error sending command:', error);
       });
     }
-
-    // Function to set get_data flag and get data from Firebase
-    function getData() {
-      database.ref('/data/get_data').set(true)
-      .then(() => {
-        console.log('Get data flag set to true');
-        setTimeout(() => {
-          database.ref('/data').once('value')
-          .then((snapshot) => {
-            const data = snapshot.val();
-            document.getElementById('data').innerText = JSON.stringify(data, null, 2);
-            database.ref('/data/get_data').set(false); // Reset the get_data flag
-          })
-          .catch((error) => {
-            console.error('Error getting data:', error);
-          });
-        }, 5000); // 5 seconds delay to ensure the data is fetched
-      })
-      .catch((error) => {
-        console.error('Error setting get data flag:', error);
-      });
-    }
+    
   </script>
 </body>
 </html>
