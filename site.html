@@ -1,74 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LoRa Control Panel</title>
+  <title>LoRa Kontrol Paneli</title>
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-    button {
-      display: block;
-      margin: 10px 0;
-      padding: 10px 20px;
-      font-size: 16px;
-    }
-    #output {
-      margin-top: 20px;
-    }
-  </style>
-</head>
-<body>
-  <h1>LoRa Control Panel</h1>
-  <button onclick="sendCommand('ac')">Role Aç</button>
-  <button onclick="sendCommand('kapa')">Role Kapat</button>
-  <div id="output">
-    <h2>Veriler</h2>
-    <pre id="data"></pre>
-  </div>
-
   <script>
-    // Firebase configuration
-    var firebaseConfig = {
+    // Firebase yapılandırması
+    const firebaseConfig = {
       apiKey: "AIzaSyD4dFs285owx6I2VkSIcZfRKY9Uf9A7ilo",
       authDomain: "lora-19c93.firebaseapp.com",
       databaseURL: "https://lora-19c93-default-rtdb.europe-west1.firebasedatabase.app",
       projectId: "lora-19c93",
       storageBucket: "lora-19c93.appspot.com",
       messagingSenderId: "76756601417",
-      appId: "1:76756601417:web:787fb91d598c7e852e4d98"
+      appId: "1:76756601417:web:787fb91d598c7e852e4d98",
+      measurementId: "G-8JESQ40E0X"
     };
-    
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    var database = firebase.database();
 
-    // Function to send command to Firebase
-    function sendCommand(command) {
-      database.ref('/commands/role_ac').set(command)
-      .then(() => {
-        console.log('Command sent:', command);
-      })
-      .catch((error) => {
-        console.error('Error sending command:', error);
+    // Firebase'i başlat
+    firebase.initializeApp(firebaseConfig);
+
+    // Buton fonksiyonları
+    function roleyiAc() {
+      firebase.database().ref('role').set('ac');
+    }
+
+    function roleyiKapat() {
+      firebase.database().ref('role').set('kapat');
+    }
+
+    // Sensör verilerini oku ve göster
+    function verileriGuncelle() {
+      firebase.database().ref('sensor_verileri').on('value', (snapshot) => {
+        const data = snapshot.val();
+        document.getElementById('roleDurumu').innerText = data.role_durumu;
+        document.getElementById('isi').innerText = data.isi;
+        document.getElementById('nem').innerText = data.nem;
       });
     }
 
-    // Function to update data display
-    function updateDataDisplay(data) {
-      document.getElementById('data').innerText = JSON.stringify(data, null, 2);
-    }
-
-    // Listen for changes in the database
-    database.ref('/data').on('value', (snapshot) => {
-      const data = snapshot.val();
-      updateDataDisplay(data);
-    });
+    window.onload = function() {
+      verileriGuncelle();
+    };
   </script>
+</head>
+<body>
+  <h1>LoRa Kontrol Paneli</h1>
+  <button onclick="roleyiAc()">Roleyi Aç</button>
+  <button onclick="roleyiKapat()">Roleyi Kapat</button>
+  <h2>Sensör Verileri</h2>
+  <p>Role Durumu: <span id="roleDurumu">--</span></p>
+  <p>Isı: <span id="isi">--</span></p>
+  <p>Nem: <span id="nem">--</span></p>
 </body>
 </html>
