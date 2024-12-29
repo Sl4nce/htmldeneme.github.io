@@ -3,54 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LoRa Control</title>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
-  <script>
-    // Firebase yapılandırması
-    const firebaseConfig = {
-      apiKey: "AIzaSyD4dFs285owx6I2VkSIcZfRKY9Uf9A7ilo",
-      authDomain: "lora-19c93.firebaseapp.com",
-      databaseURL: "https://lora-19c93-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "lora-19c93",
-      storageBucket: "lora-19c93.appspot.com",
-      messagingSenderId: "76756601417",
-      appId: "1:76756601417:web:787fb91d598c7e852e4d98",
-      measurementId: "G-8JESQ40E0X"
-    };
-    // Firebase'i başlat
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-
-    // Role komutu gönderme fonksiyonu
-    function sendRoleCommand(command) {
-      database.ref('/data').update({
-        role_command: command
-      });
+  <title>Evlenme Teklifi</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
     }
-
-    // Sensör verilerini ve role durumunu güncelleme fonksiyonu
-    function updateData() {
-      database.ref('/data').on('value', (snapshot) => {
-        const data = snapshot.val();
-        document.getElementById('roleStatus').innerText = data.role_status;
-        document.getElementById('temperature').innerText = data.temperature;
-        document.getElementById('humidity').innerText = data.humidity;
-      });
+    h1 {
+      margin-bottom: 20px;
     }
-
-    window.onload = function() {
-      updateData();  // Sayfa yüklendiğinde verileri güncelle
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
     }
-  </script>
+    #evet {
+      background-color: #4caf50;
+      color: white;
+    }
+    #evet:hover {
+      background-color: #45a049;
+    }
+    #hayir {
+      background-color: #f44336;
+      color: white;
+    }
+    #hayir:hover {
+      background-color: #d32f2f;
+    }
+  </style>
 </head>
 <body>
-  <h1>LoRa Control Panel</h1>
-  <button onclick="sendRoleCommand('ac')">Röleyi Aç</button>
-  <button onclick="sendRoleCommand('kapat')">Röleyi Kapat</button>
-  <h2>Durum:</h2>
-  <p>Röle Durumu: <span id="roleStatus"></span></p>
-  <p>Sıcaklık: <span id="temperature"></span>°C</p>
-  <p>Nem: <span id="humidity"></span>%</p>
+  <h1>Sayın Nevin Nisa Mülazımoğlu evlenmek istiyor musun?</h1>
+  <button id="evet" onclick="evetCevap()">Evet</button>
+  <button id="hayir" onmouseover="hareketEttir()">Hayır</button>
+
+  <script>
+    function evetCevap() {
+      document.body.innerHTML = '<h1>Artık karı kocasınız!</h1>';
+    }
+
+    function hareketEttir() {
+      const hayirButton = document.getElementById("hayir");
+      const randomX = Math.random() * (window.innerWidth - 100);
+      const randomY = Math.random() * (window.innerHeight - 50);
+      hayirButton.style.position = "absolute";
+      hayirButton.style.left = randomX + "px";
+      hayirButton.style.top = randomY + "px";
+    }
+  </script>
 </body>
 </html>
