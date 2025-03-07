@@ -1,203 +1,274 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-    <style>
-        body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
-            font-family: Arial, sans-serif;
-            overflow-x: hidden;
-        }
-        
-        .container {
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .gift-wrapper {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            margin: 20px auto;
-            perspective: 1000px;
-        }
-        
-        .gift-box {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 1s;
-            background-image: url('https://www.flyingtiger.com.tr/cdn/shop/files/8731444084958_-_0.jpg?v=1731327234');
-            background-size: cover;
-            background-position: center;
-            border-radius: 10px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-        }
-        
-        .gift-box.opening {
-            animation: openBox 1.5s forwards;
-        }
-        
-        .bouquet {
-            display: none;
-            opacity: 0;
-            transform: scale(0.5);
-            transition: all 1s ease-out;
-        }
-        
-        .bouquet.show {
-            display: block;
-            opacity: 1;
-            transform: scale(1);
-        }
-        
-        .bouquet-image {
-            width: 400px;
-            max-width: 90vw;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            transition: transform 0.3s;
-        }
-        
-        .bouquet-image:hover {
-            transform: scale(1.02);
-        }
-        
-        .name {
-            font-size: 36px;
-            color: #ff6b6b;
-            margin-top: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s ease-out;
-        }
-        
-        .name.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .open-button {
-            padding: 15px 40px;
-            font-size: 20px;
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            margin-top: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .open-button:hover {
-            transform: scale(1.05);
-            background: #ff5252;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-        
-        .open-button:active {
-            transform: scale(0.95);
-        }
-        
-        @keyframes openBox {
-            0% { 
-                transform: rotateY(0) scale(1); 
-            }
-            50% { 
-                transform: rotateY(180deg) scale(1.1); 
-            }
-            100% { 
-                transform: rotateY(360deg) scale(0); 
-            }
-        }
-        
-        @keyframes sparkle {
-            0%, 100% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1); opacity: 1; }
-        }
-        
-        .sparkle {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #fff;
-            border-radius: 50%;
-            pointer-events: none;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kadınlar Günü Tebrik</title>
+  <style>
+    /* Temel sayfa stili */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      /* Hafif pembe bir geçiş */
+      background: linear-gradient(135deg, #ffe6f2, #ffcce0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      position: relative;
+    }
+
+    /* Zarf (envelope) 
+       Boyutu biraz büyütüldü: 450×300 px */
+    .envelope {
+      width: 450px;
+      height: 300px;
+      background-color: #ff80ab;
+      position: relative;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.5s;
+      overflow: hidden;
+      margin: 0 auto;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Üst kapak (flap) 
+       120px yüksekliğinde, arkaya katlanma animasyonu */
+    .flap {
+      width: 100%;
+      height: 120px;
+      background-color: #ff4081;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: top;
+      transition: 0.5s;
+      /* Kapak için hafif oval alt kenar */
+      border-bottom-left-radius: 50% 20px;
+      border-bottom-right-radius: 50% 20px;
+    }
+
+    /* Zarf gövdesi 
+       Kapaktan sonra gelen 180px (300 - 120) alan 
+       --> Değeri 120px'ten 100px'e düşürdük */
+    .body {
+      position: absolute;
+      top: 100px; /* Eskiden 120px idi */
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    /* Kapalı zarfın ortasındaki yazı */
+    .text {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 80%;
+      line-height: 1.4;
+    }
+
+    /* Mektup içeriği 
+       --> margin değerlerini değiştirdik ve top margin ekledik */
+    .letter {
+      background: white;
+      color: #333;
+      padding: 15px 20px;
+      margin: 0px 10px 10px 10px; /* top, right, bottom, left */
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      /* Mektubu yukarı taşımak için position ayarı */
+      position: relative;
+      top: -10px; /* Yukarı taşımak için negatif değer */
+
+      /* Başlangıçta görünmez, animasyonla belirecek */
+      opacity: 0;
+      transform: translateY(20px);
+      transition: 0.5s;
+
+      /* Metin uzun olursa dikey kaydırma */
+      max-height: 130px; 
+      overflow-y: auto;
+      /* Taşma durumunda yatay scroll olmaması için: */
+      word-wrap: break-word;
+    }
+
+    /* Zarf açılınca */
+    .envelope.open .flap {
+      transform: rotateX(-180deg); /* Kapak arkaya doğru katlanır */
+    }
+
+    .envelope.open .letter {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Sürpriz butonu (kalpler) - Başlangıçta gizli */
+    .show-hearts {
+      display: none; 
+      background-color: #ff4081;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 20px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+      transition: 0.3s;
+    }
+
+    .show-hearts:hover {
+      background-color: #e91e63;
+      transform: scale(1.05);
+    }
+
+    /* Talimat yazısı */
+    .instructions {
+      margin-top: 10px;
+      color: #ff4081;
+      font-weight: bold;
+    }
+
+    /* Kalp animasyonu */
+    .heart {
+      position: fixed;
+      font-size: 24px;
+      opacity: 0;
+      animation: float 6s ease-in-out forwards;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) translateX(0) scale(1);
+        opacity: 1;
+      }
+      25% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) translateX(var(--tx)) scale(0);
+        opacity: 0;
+      }
+    }
+
+    /* Mobil uyum (daha küçük ekranlarda boyutları orantılı küçültüyoruz) */
+    @media (max-width: 500px) {
+      .envelope {
+        width: 300px;
+        height: 220px;
+      }
+      .flap {
+        height: 90px;
+      }
+      .body {
+        top: 90px;
+      }
+      .letter {
+        max-height: 100px;
+        margin: 0px 10px 10px 10px;
+        top: -10px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="gift-wrapper">
-            <div class="gift-box" id="giftBox"></div>
+  <div class="container">
+    <div class="envelope" id="envelope">
+      <!-- Kapak -->
+      <div class="flap"></div>
+      <!-- Zarf gövdesi -->
+      <div class="body">
+        <!-- Kapalı zarfın ortasındaki yazı -->
+        <div class="text">Kadınlar Günü Kutlu Olsun</div>
+        <!-- Mektup içeriği -->
+        <div class="letter">
+          <p><strong>Sevgili [İsim],</strong></p>
+          <p>
+            Bugün hayatımda olduğun için sana teşekkür etmek istiyorum.  
+            Güçlü duruşun, sevgi dolu kalbin ve sonsuz desteğin benim için paha biçilemez.  
+            Dünyayı güzelleştiren kadınlardan biri olduğun için minnettarım.
+          </p>
+          <p><strong>Kadınlar Günü Kutlu Olsun!</strong></p>
+          <p>Sevgilerimle,<br>[İmza]</p>
         </div>
-        <button class="open-button" id="openButton">Hediyeni Ac </button>
-        
-        <div class="bouquet" id="bouquet">
-            <img src="https://labellefleurdesign.ca/cdn/shop/files/image_4aaf22ba-e94f-4f30-83ad-94e09bc56d98.jpg?v=1704389105" alt="Çiçek Buketi" class="bouquet-image">
-            <div class="name" id="nameLine">Nevin'e ❤ </div>
-        </div>
+      </div>
     </div>
+    <!-- Sürpriz butonu (başta görünmez) -->
+    <button class="show-hearts" id="showHearts">❤️ Sürpriz ❤️</button>
+    <!-- Talimat yazısı -->
+    <div class="instructions">Zarfı açmak için tıklayın</div>
+  </div>
 
-    <script>
-        const giftBox = document.getElementById('giftBox');
-        const bouquet = document.getElementById('bouquet');
-        const openButton = document.getElementById('openButton');
-        const nameLine = document.getElementById('nameLine');
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const envelope = document.getElementById('envelope');
+      const showHeartsBtn = document.getElementById('showHearts');
+
+      // Zarfı tıklayınca aç/kapa
+      envelope.addEventListener('click', () => {
+        envelope.classList.toggle('open');
         
-        function createSparkle(x, y) {
-            const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle';
-            sparkle.style.left = x + 'px';
-            sparkle.style.top = y + 'px';
-            document.body.appendChild(sparkle);
-            
-            sparkle.style.animation = 'sparkle 0.8s ease-in-out';
-            setTimeout(() => sparkle.remove(), 800);
+        // Eğer zarf açıldıysa butonu göster, kapandıysa gizle
+        if (envelope.classList.contains('open')) {
+          showHeartsBtn.style.display = 'inline-block';
+        } else {
+          showHeartsBtn.style.display = 'none';
         }
-        
-        openButton.addEventListener('mousemove', (e) => {
-            const rect = openButton.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            createSparkle(e.clientX, e.clientY);
-        });
-        
-        openButton.addEventListener('click', () => {
-            openButton.disabled = true;
-            openButton.style.opacity = '0.7';
-            
-            giftBox.classList.add('opening');
-            
+      });
+
+      // Kalplerin uçuşması
+      showHeartsBtn.addEventListener('click', (e) => {
+        // Zarfın kapanma olayını tetiklememek için tıklamayı durdur
+        e.stopPropagation();
+        createHearts();
+      });
+
+      function createHearts() {
+        const heartCount = 30;
+        const heartSymbols = ['❤️', '💕', '💖', '💗', '💓', '💘'];
+
+        for (let i = 0; i < heartCount; i++) {
+          setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            // Rastgele kalp sembolü
+            heart.innerHTML = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            // Rastgele boyut
+            const size = Math.random() * 20 + 20;
+            heart.style.fontSize = `${size}px`;
+            // Rastgele yatay konum
+            heart.style.left = Math.random() * 90 + 5 + '%';
+            heart.style.bottom = '10%';
+            // Rastgele yatay hareket
+            heart.style.setProperty('--tx', (Math.random() * 300 - 150) + 'px');
+            // Rastgele animasyon gecikmesi
+            heart.style.animationDelay = Math.random() * 0.5 + 's';
+
+            document.body.appendChild(heart);
+
+            // Belirli bir süre sonra kalbi DOM'dan kaldır
             setTimeout(() => {
-                giftBox.style.display = 'none';
-                bouquet.style.display = 'block';
-                
-                setTimeout(() => {
-                    bouquet.classList.add('show');
-                    nameLine.classList.add('show');
-                    openButton.style.display = 'none';
-                }, 50);
-            }, 1400);
-            
-            for(let i = 0; i < 10; i++) {
-                setTimeout(() => {
-                    const x = Math.random() * window.innerWidth;
-                    const y = Math.random() * window.innerHeight;
-                    createSparkle(x, y);
-                }, i * 100);
-            }
-        });
-    </script>
+              heart.remove();
+            }, 6000);
+          }, i * 100);
+        }
+      }
+    });
+  </script>
 </body>
 </html>
